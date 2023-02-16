@@ -21,6 +21,12 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
+  <div class="field">
+    <%# write two radio buttons one that selects "applicant" and the other that selects "employer" %>
+    <%= f.radio_button :role_id, 1 %> Applicant
+    <%= f.radio_button :role_id, 2 %> Employer
+  </div>
+
   <div class="actions">
     <%= f.submit "Sign up" %>
   </div>
