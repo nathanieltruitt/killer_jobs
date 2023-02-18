@@ -1,0 +1,6 @@
+<h3><%= job.title %></h3>
+<% if job.has_applicant?(current_user.id) %>
+  <%= button_to 'Cancel', job_applications_path, method: :delete %>
+<% elsif current_user.role.name == 'Applicant' %>
+  <%= button_to 'Apply', job_applications_path, method: :post %>
+<% end %>

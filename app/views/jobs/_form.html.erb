@@ -1,0 +1,25 @@
+<%# write a form that will be used to create or update a @job %>
+<%= form_with(model: @job) do |f| %>
+  <% if @job.errors.any? %>
+    <div>Cannot save due to <%= pluralize(@job.errors.count, 'error') %></div>
+    <ul>
+      <% @job.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="action">
+    <%= form.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,5 @@
+<h3>Job: <%= @job.title %></h3>
+<p><%= @job.description %></p>
+<% if @job.company == current_user.company %>
+  <%= button_to 'Delete Job', job_path, method: :delete %>
+<% end %>
