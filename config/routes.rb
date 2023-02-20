@@ -8,4 +8,5 @@ Rails.application.routes.draw do
   resources :jobs do
     resources :applications, only: %i[create destroy]
   end
+  resources :companies, only: :index
 end

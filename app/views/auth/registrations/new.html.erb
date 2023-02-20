@@ -24,13 +24,12 @@
   <div class="field radio-field">
     <%# write two radio buttons one that selects "applicant" and the other that selects "employer" %>
     <%= f.radio_button :role_id, 1, class: 'radio-applicant' %> Applicant
-    <%= f.radio_button :role_id, 2, class: 'radio-employer' %> Employer,
+    <%= f.radio_button :role_id, 2, class: 'radio-employer' %> Employer
   </div>
 
    <%# field that only displays if role_id is set to 2 %>
-   <div class="field company-field" style="display: none">
-    <%= f.label :company_id %>
-    <%= f.collection_select :company_id, Company.all, :id, :name %> 
+   <div class="field company-field">
+    <%# this field has nothing by default, JavaScript handles from here. %>
    </div>
 
   <div class="actions">
@@ -43,19 +42,44 @@
 <script>
   const radioButtons = document.querySelector('.radio-field')
   const role = document.querySelector('.radio-employer')
-  const company = document.querySelector('.company-field')
+  const companyField = document.querySelector('.company-field')
+  let companies = []
 
-  function addCompanyField() {
-    `<label for='user_company_id'>Company</label>
-    <select name='user[company_id]' id='user_company_id'>
-      <option value='1'>Company 1</option>
-      <option value='2'>Company 2</option>
-      <option value='3'>Company 3</option>
-    `
+  async function getCompanies() {
+    response = await fetch('http://127.0.0.1:3000/companies.json')
+    companies = await response.json()
+    return companies
   }
 
-  radioButtons.addEventListener('click', (event) => {
-    if (role.checked) company.style.display = 'block'
-    else company.style.display = 'none'   
+  async function addCompanyField() {
+      const label = document.createElement('label')
+      label.setAttribute('for', 'user_company_id')
+      label.innerText = 'Company'
+
+      const select = document.createElement('select')
+      select.setAttribute('name', 'user[company_id]')
+      select.setAttribute('id', 'user_company_id')
+
+      // append the companies to the select field
+      companies.forEach((company) => {
+        const option = document.createElement('option')
+        option.setAttribute('value', company.id)
+        option.innerText = company.name
+        select.appendChild(option)
+      })
+
+      companyField.appendChild(label)
+      companyField.appendChild(select)
+  }
+
+  radioButtons.addEventListener('click', async (event) => {
+    if (event.target.className === 'radio-employer') {
+      // get companies from the server and add them to the select field
+      if (companies.length === 0) companies = await getCompanies();
+      addCompanyField()
+    } else if (event.target.className === 'radio-applicant') {
+      // remove the select field
+      companyField.innerHTML = ''
+    }
   })
 </script>

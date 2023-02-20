@@ -5,4 +5,5 @@
   <% else %>
   <li><%= link_to 'Logout', destroy_user_session_path, data: {'turbo-method': :delete} %></li>
   <% end %>
+  <li><%= link_to 'Jobs', jobs_path %></li>
 </ul>

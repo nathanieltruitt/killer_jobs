@@ -31,6 +31,11 @@
     <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 
+     <%# field that only displays if role_id is set to 2 %>
+   <div class="field company-field">
+    <%# this field has nothing by default, JavaScript handles from here. %>
+   </div>
+
   <div class="actions">
     <%= f.submit "Update" %>
   </div>
@@ -41,3 +46,48 @@
 <p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
 
 <%= link_to "Back", :back %>
+
+<script>
+  const radioButtons = document.querySelector('.radio-field')
+  const role = document.querySelector('.radio-employer')
+  const companyField = document.querySelector('.company-field')
+  let companies = []
+
+  async function getCompanies() {
+    response = await fetch('http://127.0.0.1:3000/companies.json')
+    companies = await response.json()
+    return companies
+  }
+
+  async function addCompanyField() {
+      const label = document.createElement('label')
+      label.setAttribute('for', 'user_company_id')
+      label.innerText = 'Company'
+
+      const select = document.createElement('select')
+      select.setAttribute('name', 'user[company_id]')
+      select.setAttribute('id', 'user_company_id')
+
+      // append the companies to the select field
+      companies.forEach((company) => {
+        const option = document.createElement('option')
+        option.setAttribute('value', company.id)
+        option.innerText = company.name
+        select.appendChild(option)
+      })
+
+      companyField.appendChild(label)
+      companyField.appendChild(select)
+  }
+
+  radioButtons.addEventListener('click', async (event) => {
+    if (event.target.className === 'radio-employer') {
+      // get companies from the server and add them to the select field
+      if (companies.length === 0) companies = await getCompanies();
+      addCompanyField()
+    } else if (event.target.className === 'radio-applicant') {
+      // remove the select field
+      companyField.innerHTML = ''
+    }
+  })
+</script>

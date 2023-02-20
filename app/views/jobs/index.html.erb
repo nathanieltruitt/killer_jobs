@@ -4,6 +4,12 @@
   <%= render 'job', job: job %>
 <% end %>
 
-<% if current_user && current_user.role.name == 'Employee' %>
+<div class="page-selector">
+  <% pages(Job.all.count).times do |page| %>
+    <%= link_to page + 1, jobs_path(page: page + 1) %>
+  <% end %>
+</div>
+
+<% if current_user && current_user.role.name == 'employer' %>
   <%= link_to 'New Job', new_job_path %>
 <% end %>

@@ -16,7 +16,7 @@ class ApplicationsController < ApplicationController
   def authenticate_applicant!
     authenticate_user!
 
-    if current_user.role.name != 'Applicant'
+    if current_user.role.name != 'applicant'
       redirect_to root_path, alert: 'Employers cannot apply for jobs.'
     end
   end

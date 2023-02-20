@@ -6,10 +6,11 @@ class Job < ApplicationRecord
 
   def self.paginate(page)
     page = 1 if page.nil?
-    offset((page - 1) * 10).limit(10)
+    offset((page.to_i - 1) * 10).limit(10)
   end
 
-  def self.has_applicant?(user_id)
-    Applications.where(user_id: user_id).exists?
+  def has_applicant?(user_id)
+    Application.where(user_id: user_id).count.positive?
   end
 end
+

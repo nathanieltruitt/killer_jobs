@@ -1,5 +1,6 @@
 class JobsController < ApplicationController
   before_action :authenticate_employer!, only: %i[new create edit update destroy]
+  before_action :set_job, only: %i[show edit update destroy]
 
   def index
     # TODO: build pagination
@@ -49,7 +50,7 @@ class JobsController < ApplicationController
   def authenticate_employer!
     authenticate_user!
 
-    unless current_user.role.name == 'Employer'
+    unless current_user.role.name == 'employer'
       redirect_to root_path, alert: 'You must be an employer to access this page.'
     end
   end

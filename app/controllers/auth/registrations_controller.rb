@@ -4,7 +4,7 @@ module Auth
     private
 
     def sign_up_params
-      params.require(:user).permit(:email, :password, :password_confirmation, :role_id)
+      params.require(:user).permit(:email, :password, :password_confirmation, :role_id, :company_id)
     end
   end
 end
