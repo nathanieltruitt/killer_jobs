@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_16_205117) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_19_021733) do
   create_table "applications", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "job_id", null: false
@@ -24,6 +24,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_16_205117) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "company_id"
   end
 
   create_table "jobs", force: :cascade do |t|
@@ -65,7 +66,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_16_205117) do
     t.datetime "updated_at", null: false
     t.integer "role_id"
     t.bigint "company_id"
-    t.index ["company_id"], name: "index_users_on_company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
@@ -76,6 +76,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_16_205117) do
   add_foreign_key "jobs", "companies"
   add_foreign_key "permissions_roles", "permissions"
   add_foreign_key "permissions_roles", "roles"
-  add_foreign_key "users", "companies"
   add_foreign_key "users", "roles"
 end

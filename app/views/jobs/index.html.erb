@@ -1,2 +1,9 @@
 <h1>Jobs</h1>
 
+<% @jobs.each do |job| %>
+  <%= render 'job', job: job %>
+<% end %>
+
+<% if current_user && current_user.role.name == 'Employee' %>
+  <%= link_to 'New Job', new_job_path %>
+<% end %>

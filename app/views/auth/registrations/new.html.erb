@@ -1,6 +1,6 @@
 <h2>Sign up</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), data: { turbo: false }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
 
   <div class="field">
@@ -21,11 +21,17 @@
     <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
-  <div class="field">
+  <div class="field radio-field">
     <%# write two radio buttons one that selects "applicant" and the other that selects "employer" %>
-    <%= f.radio_button :role_id, 1 %> Applicant
-    <%= f.radio_button :role_id, 2 %> Employer
+    <%= f.radio_button :role_id, 1, class: 'radio-applicant' %> Applicant
+    <%= f.radio_button :role_id, 2, class: 'radio-employer' %> Employer,
   </div>
+
+   <%# field that only displays if role_id is set to 2 %>
+   <div class="field company-field" style="display: none">
+    <%= f.label :company_id %>
+    <%= f.collection_select :company_id, Company.all, :id, :name %> 
+   </div>
 
   <div class="actions">
     <%= f.submit "Sign up" %>
@@ -33,3 +39,23 @@
 <% end %>
 
 <%= render "devise/shared/links" %>
+
+<script>
+  const radioButtons = document.querySelector('.radio-field')
+  const role = document.querySelector('.radio-employer')
+  const company = document.querySelector('.company-field')
+
+  function addCompanyField() {
+    `<label for='user_company_id'>Company</label>
+    <select name='user[company_id]' id='user_company_id'>
+      <option value='1'>Company 1</option>
+      <option value='2'>Company 2</option>
+      <option value='3'>Company 3</option>
+    `
+  }
+
+  radioButtons.addEventListener('click', (event) => {
+    if (role.checked) company.style.display = 'block'
+    else company.style.display = 'none'   
+  })
+</script>

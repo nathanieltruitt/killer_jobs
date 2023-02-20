@@ -4,8 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   belongs_to :role
-  belongs_to :company
+  belongs_to :company, optional: true
   has_many :applications
   has_many :jobs, through: :applications
-  validates :first_name, :last_name, :email, :role_id, presence: true
+  validates :email, :role_id, presence: true
 end
