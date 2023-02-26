@@ -9,6 +9,10 @@ class Job < ApplicationRecord
     offset((page.to_i - 1) * 10).limit(10)
   end
 
+  def self.search(query)
+    where('title LIKE ?', "%#{query}%") if query
+  end
+
   def has_applicant?(user_id)
     Application.where(user_id: user_id).count.positive?
   end

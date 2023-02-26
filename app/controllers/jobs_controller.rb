@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 class JobsController < ApplicationController
   before_action :authenticate_employer!, only: %i[new create edit update destroy]
   before_action :set_job, only: %i[show edit update destroy]
 
   def index
     # TODO: build pagination
-    @jobs = Job.paginate(params[:page])
+    @jobs = Job.search(params[:query] || '').paginate(params[:page])
   end
 
   def show
@@ -45,13 +46,5 @@ class JobsController < ApplicationController
 
   def set_job
     @job = Job.find(params[:id])
-  end
-
-  def authenticate_employer!
-    authenticate_user!
-
-    unless current_user.role.name == 'employer'
-      redirect_to root_path, alert: 'You must be an employer to access this page.'
-    end
   end
 end

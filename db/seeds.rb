@@ -6,6 +6,4 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-100.times do
-  Job.create(title: Faker::Job.title, description: Faker::Lorem.paragraph, company_id: rand(1..101))
-end
+Role.create(name: 'company_admin')

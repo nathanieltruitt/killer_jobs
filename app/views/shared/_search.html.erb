@@ -1,0 +1,6 @@
+<div class="search-input">
+  <%= form_tag jobs_path, method: :get do %>
+    <%= text_field_tag :query, params[:query], placeholder: "Search" %>
+    <%= submit_tag "Search", name: nil %>
+  <% end %>
+</div>

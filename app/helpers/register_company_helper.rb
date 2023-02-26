@@ -1,0 +1,2 @@
+module RegisterCompanyHelper
+end

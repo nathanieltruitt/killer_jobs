@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_19_021733) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_23_182726) do
   create_table "applications", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "job_id", null: false
@@ -34,6 +34,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_19_021733) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["company_id"], name: "index_jobs_on_company_id"
+  end
+
+  create_table "locations", force: :cascade do |t|
+    t.string "address", null: false
+    t.string "city", null: false
+    t.string "state", null: false
+    t.integer "zip_code", null: false
+    t.integer "company_id"
+    t.boolean "primary_location"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_locations_on_company_id"
   end
 
   create_table "permissions", force: :cascade do |t|
@@ -65,7 +77,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_19_021733) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "role_id"
-    t.bigint "company_id"
+    t.integer "company_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role_id"], name: "index_users_on_role_id"
@@ -74,6 +86,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_19_021733) do
   add_foreign_key "applications", "jobs"
   add_foreign_key "applications", "users"
   add_foreign_key "jobs", "companies"
+  add_foreign_key "locations", "companies"
   add_foreign_key "permissions_roles", "permissions"
   add_foreign_key "permissions_roles", "roles"
   add_foreign_key "users", "roles"
