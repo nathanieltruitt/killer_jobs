@@ -12,12 +12,35 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %>
+    <%= f.label :name, 'Company Name' %>
     <%= f.text_field :name %>
   </div>
 
-  <%= f.fields_for :location do |location_subform| %>
+  <%= f.fields_for :locations do |location_subform| %>
+    <h3>Create Company Location</h3>
     <%= render 'location_subform', location_subform: location_subform %>
+  <% end %>
+
+  <%= f.fields_for :users do |user_subform| %>
+    <h3>Create Company User</h3>
+    <div class="field">
+      <%= user_subform.label :email %>
+      <%= user_subform.text_field :email %>
+    </div>
+
+    <div class="field">
+      <%= user_subform.label :password %>
+      <%= user_subform.password_field :password %>
+    </div>
+
+    <div class="field">
+      <%= user_subform.label :password_confirmation %>
+      <%= user_subform.password_field :password_confirmation %>
+    </div>
+
+    <div class="field">
+      <%= user_subform.hidden_field :role_id, value: '3' %>
+    </div>
   <% end %>
 
   <div class="actions">

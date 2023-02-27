@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 class CompaniesController < ApplicationController
+  include ApplicationHelper
   before_action :set_company, only: %i[show edit update destroy]
   before_action :authenticate_company_admin!, only: %i[edit update destroy]
   before_action :no_current_user?, only: %i[new create]
@@ -20,7 +21,8 @@ class CompaniesController < ApplicationController
   # GET /companies/new
   def new
     @company = Company.new
-    @company.locations.new
+    @company.locations.build
+    @company.users.build
   end
 
   # GET /companies/1/edit
@@ -52,17 +54,14 @@ class CompaniesController < ApplicationController
   private
 
   def set_company
-    @company = Company.find(params[:id])
+    begin
+      @company = Company.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      redirect_to page_not_found_path
+    end
   end
 
   def company_params
-    params.require(:company).permit(:name, location_attributes: %[address city state zip_code primary_location])
-  end
-
-  # Only anonymous users can create new companies. Then they become a company admin.
-  def no_current_user?
-    return true if current_user.nil?
-
-    false
+    params.require(:company).permit(:name, locations_attributes: %i[address city state zip_code primary_location], users_attributes: %i[email password password_confirmation role_id])
   end
 end

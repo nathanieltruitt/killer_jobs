@@ -5,8 +5,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   root 'pages#home'
+  get 'page_not_found', to: 'pages#page_not_found'
   resources :jobs do
     resources :applications, only: %i[create destroy]
   end
-  resources :companies, only: :index
+  resources :companies
 end
