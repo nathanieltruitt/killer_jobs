@@ -9,5 +9,11 @@ Rails.application.routes.draw do
   resources :jobs do
     resources :applications, only: %i[create destroy]
   end
-  resources :companies
+  resources :companies do
+    resources :locations, except: :index
+  end
+
+  # my company routes
+  get 'my_company/recruiters', to: 'companies#recruiters'
+  get 'my_company/locations', to: 'companies#locations'
 end

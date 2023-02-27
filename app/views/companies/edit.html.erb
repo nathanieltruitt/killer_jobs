@@ -1,0 +1,14 @@
+<%# TODO: need to be able to add a remove new recruiters from here. %>
+
+<%= form_with model: @company do |form| %>
+  <% if @company.errors.any? %>
+    <div id="error_explanation">
+      <h2>Unable to save due to <%= pluralize(@company.errors.count, 'error') %></h2>
+    </div>
+    <ul>
+    <% @company.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  <% end %>
+<% end %>

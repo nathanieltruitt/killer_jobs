@@ -1,0 +1,7 @@
+<h1>Locations</h1>
+<%# show locations here but redirect to locations controller for creating new ones and editing %>
+<div class="locations">
+  <% @locations.each do |location| %>
+    <%= render 'location', location: location %>
+  <% end %>
+</div>
