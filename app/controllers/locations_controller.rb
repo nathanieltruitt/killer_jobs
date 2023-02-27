@@ -3,14 +3,14 @@ class LocationsController < ApplicationController
   end
 
   def new
-    @location = Location.new
+    @location = @company.locations.new
   end
 
   def edit
   end
 
   def create
-    @location = Location.new(location_params)
+    @location = @company.locations.new(location_params)
     if @location.save
       redirect_to @location, notice: 'Location was successfully created.'
     else
@@ -35,6 +35,10 @@ class LocationsController < ApplicationController
 
   def set_location
     @location = Location.find(params[:id])
+  end
+
+  def set_company
+    @company = Company.find(params[:company_id])
   end
 
   def location_params
