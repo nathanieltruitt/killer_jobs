@@ -3,6 +3,6 @@
   <p>City: <%= location.city %></p>
   <p>State: <%= location.state %></p>
   <p>Zip: <%= location.zip_code %></p>
-  <%= button_to 'Edit', edit_location_path(location), method: :get %>
-  <%= button_to 'Delete', location_path(location), method: :delete %>
+  <%= button_to 'Edit', edit_company_location_path(@company, location), method: :get %>
+  <%= button_to 'Delete', company_location_path(@company, location), method: :delete %>
 </div>

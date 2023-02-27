@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   end
 
   # my company routes
-  get 'my_company/recruiters', to: 'companies#recruiters'
-  get 'my_company/locations', to: 'companies#locations'
+  get 'my_company', to: 'my_company#show'
+  get 'my_company/recruiters', to: 'my_company#recruiters'
+  get 'my_company/locations', to: 'my_company#locations'
 end

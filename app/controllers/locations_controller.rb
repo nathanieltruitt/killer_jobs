@@ -1,4 +1,9 @@
 class LocationsController < ApplicationController
+  include LocationsHelper
+  before_action :set_location, only: %i[show edit update destroy]
+  before_action :set_company
+  before_action :authenticate_company_admin!, only: %i[new create edit update destroy]
+
   def show
   end
 
@@ -27,8 +32,12 @@ class LocationsController < ApplicationController
   end
 
   def destroy
-    @location.destroy
-    redirect_to locations_path, notice: 'Location was successfully deleted.'
+    if @location.primary_location == false
+      @location.destroy
+      redirect_to my_company_path, notice: 'Location was successfully deleted.'
+    else
+      redirect_to my_company_locations_path, notice: 'Primary location cannot be deleted.'
+    end
   end
 
   private
